@@ -25,6 +25,16 @@ import java.util.concurrent.locks.Lock;
 public class MainActivity extends AppCompatActivity {
 //    private Button selectbutton;
 //    @Override
+
+    /*
+
+
+    难度选择实现
+
+    选择完跳转到gameView，接上就好！
+
+
+     */
 //    protected void onCreate(Bundle savedInstanceState) {
 //        super.onCreate(savedInstanceState);
 //        setContentView(R.layout.activity_main);
@@ -53,23 +63,24 @@ public class MainActivity extends AppCompatActivity {
 //    }
 
 //    private MusicService.MusicControl control;
+
+
+
+    /*
+
+
+    音频播放实现
+    按钮点1下开始循环播放，再点一下
+    ps：其实不需要survice，越简单越好
+
+     */
+
     private Button musicbutton;
     private int state;
     private MediaPlayer mediaPlayer = new MediaPlayer();
     private boolean flag = true;
     private MediaPlayer Player = new MediaPlayer();
 
-//    private ServiceConnection connection = new ServiceConnection(){
-//    @Override
-//    public void onServiceConnected(ComponentName name, IBinder service) {
-//        control = (MusicService.MusicControl) service;
-//    }
-//
-//    @Override
-//    public void onServiceDisconnected(ComponentName name) {
-//
-//    }
-//};
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -83,40 +94,24 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View v) {
                 if(state==0){
                     state=1;
-//                    Object Lock = new Object();
-                    Thread bgmThread = new Thread(()->
-                    {
-                            Player.reset();
-                            Player = MediaPlayer.create(getApplicationContext(),R.raw.bgm);
-                            Player.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
-                            @Override
-                            public void onCompletion(MediaPlayer mp) {
-                                Player.start();
-                                Player.setLooping(true);
-                            }
-
-                            });
+                    Player.reset();
+                    Player = MediaPlayer.create(getApplicationContext(),R.raw.bgm);
+                    Player.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
+                        @Override
+                        public void onCompletion(MediaPlayer mp) {
                             Player.start();
-
+                            Player.setLooping(true);
+                        }
+                    });
+                    Player.start();
                     }
-                    );
-                    bgmThread.start();
-
-                }
                 else {
                     state=0;
                     Player.stop();
-//                    mediaPlayer.stop();
-//                    mediaPlayer.release();
-//                    mediaPlayer = new MediaPlayer();
                 }
-
-
             }
         });
 
-//        Intent intent = new Intent(getApplicationContext(),MusicService.class);
-//        bindService(intent,connection,BIND_AUTO_CREATE);
 
     }
 
